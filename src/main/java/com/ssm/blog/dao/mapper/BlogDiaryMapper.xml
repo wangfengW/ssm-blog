@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--如果dao接口没有实现类，那么Mapper的namespace要是接口的全路径-->
+<mapper namespace="com.ssm.blog.dao.BlogDiaryDAO">
+
+    <!--添加数据使用insert标签-->
+    <insert id="addDiary" parameterType="BlogDiary" useGeneratedKeys="true" keyProperty="id">
+        insert into BLOG_DIARY (USER_ID,CONTENT,CREATED_DATE)
+        values(#{userId},#{content},now())
+    </insert>
+
+    <!--查询-->
+    <resultMap id="diaryMap" type="BlogDiary">
+        <id property="id" column="ID"/>
+        <result property="content" column="CONTENT"/>
+    </resultMap>
+    <select id="getAllDiaryList" parameterType="int" resultMap="diaryMap">
+        select ID,USER_ID,CONTENT
+        from BLOG_DIARY
+        where STATUS=1 and USER_ID=#{userId}
+        order by ID DESC
+    </select>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssm.blog.dao.BlogShuoDAO">
+
+
+    <insert id="addBlogShuo" keyProperty="id" useGeneratedKeys="true" parameterType="BlogShuo">
+       insert into BLOG_SHUO (USER_ID,CONTENT,CREATED_DATE)
+       values(#{userId},#{content},now())
+    </insert>
+
+    <resultMap id="shuoMap" type="BlogShuo">
+        <id property="id" column="ID"/>
+        <result property="content" column="CONTENT"/>
+        <result property="createdDate" column="CREATED_DATE"/>
+    </resultMap>
+
+    <select id="getShuoList" parameterType="int" resultMap="shuoMap">
+        select ID,CONTENT,CREATED_DATE
+        from BLOG_SHUO where STATUS=1 and USER_ID=#{userId}
+    </select>
+</mapper>
